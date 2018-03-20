@@ -1,0 +1,131 @@
+RSBTechMap = {
+	["RSBBreakthroughBiotech"] = {
+		"Cloning",
+		"CryoSleep",
+		"DryFarming",
+		"GeneSelection",
+		"GiantCrops",
+		"MartianDiet",
+		"ProjectPhoenix",
+		"SoylentGreen",
+		"Superfungus"
+	},
+	["RSBBreakthroughEngineering"] = {
+		"ConstructionNanites",
+		"DomeStreamlining",
+		"HullPolarization",
+		"MagneticExtraction",
+		"MartianSteel",
+		"MultispiralArchitecture",
+		"PlasmaRocket",
+		"PrefabCompression",
+		"PrintedElectronics",
+		"SuperiorCables",
+		"SuperiorPipes",
+		"VectorPump"
+	},
+	["RSBBreakthroughRobotics"] = {
+		"ArtificialMuscles",
+		"AutonomousHubs",
+		"ExtractorAI",
+		"FactoryAutomation",
+		"NanoRefinement",
+		"ServiceBots",
+		"ThePositronicBrain",
+		"WirelessPower"
+	},
+	["RSBBreakthroughPhysics"] = {
+		"AlienImprints",
+		"CoreMetals",
+		"CoreRareMetals",
+		"CoreWater",
+		"FrictionlessComposites",
+		"NeoConcrete",
+		"HypersensitivePhotovoltaics",
+		"EternalFusion",
+		"PlutoniumSynthesis",
+		"SuperconductingComputing",
+		"ZeroSpaceComputing"
+	},
+	["RSBBreakthroughSocial"] = {
+		"ForeverYoung",
+		"GoodVibrations",
+		"HiveMind",
+		"InspiringArchitecture",
+		"InterplanetaryLearning",
+		"MartianbornIngenuity",
+		"NeuralEmpathy",
+		"NocturnalAdaptation",
+		"RapidSleep",
+		"SafeMode",
+		"SpaceRehabilitation",
+		"SustainedWorkload",
+		"VocationOrientedSociety"
+	}
+}
+
+local metal_costs = 0
+
+function GrantSocial()
+	g_Consts.FundingGainsModifier = g_Consts.FundingGainsModifier + 5
+	AddCustomOnScreenNotification("RSB", "Advanced research", "Granted 5% to all fundings (now " .. g_Consts.FundingGainsModifier .. "%)")
+end
+
+function GrantPhysics()
+	g_Consts.FundingGainsModifier = g_Consts.FundingGainsModifier + 5
+	AddCustomOnScreenNotification("RSB", "Advanced research", "Granted 5% to all fundings (now " .. g_Consts.FundingGainsModifier .. "%)")
+end
+
+function GrantRobotics()
+	g_Consts.FundingGainsModifier = g_Consts.FundingGainsModifier + 5
+	AddCustomOnScreenNotification("RSB", "Advanced research", "Granted 5% to all fundings (now " .. g_Consts.FundingGainsModifier .. "%)")
+end
+
+function GrantBiotech()
+	g_Consts.eat_food_per_visit = g_Consts.eat_food_per_visit - 5
+	if g_Consts.eat_food_per_visit < 25 then
+		g_Consts.eat_food_per_visit = 25
+		AddCustomOnScreenNotification("RSB", "Advanced research", "Our colonists are perfectly shaped and eat minimal amount of food arleady.")
+	else
+		AddCustomOnScreenNotification("RSB", "Advanced research", "Our colonists consume even less food from now.")
+	end
+end
+
+function GrantEngineering()
+	g_Consts.FundingGainsModifier = g_Consts.FundingGainsModifier + 5
+	AddCustomOnScreenNotification("RSB","Advanced research", "Granted 5% to all fundings (now " .. g_Consts.FundingGainsModifier .. "%)")	
+end
+
+function count(T)
+	local c = 0
+	for _ in ipairs(T) do c = c + 1 end
+	return c
+end
+
+function RollTech(tech_id)
+	local br = RSBTechMap[tech_id]
+	local techId = br[AsyncRand(count(br)-1)]
+	return techId
+end
+
+function OnMsg.TechResearched(tech_id, city, first_time)
+	if RSBTechMap[tech_id] ~= nil then 
+		tech = RollTech(tech_id)
+		if IsTechDiscovered(tech) then
+			if tech_id == "RSBBreakthroughSocial" then
+				GrantSocial()
+			elseif tech_id == "RSBBreakthroughPhysics" then
+				GrantPhysics()
+			elseif tech_id == "RSBBreakthroughBiotech" then
+				GrantBiotech()
+			elseif tech_id == "RSBBreakthroughRobotics" then
+				GrantRobotics()
+			elseif tech_id == "RSBBreakthroughEngineering" then
+				GrantEngineering()
+			end
+		else
+			AddCustomOnScreenNotification("Discovery","Breakthrough", "Discovered " .. tech)
+			DiscoverTech(tech)
+		end
+	end
+end
