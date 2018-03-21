@@ -2,17 +2,82 @@ DefineClass.RSBDisasterWorkshiftControl = {
     __parents =  {"ShiftsBuilding"}
 }
 
-local injectParentsIntoCore = function()
-    Sleep(5000)
-    (table.insert)(WindTurbine.__parents, "RSBDisasterWorkshiftControl")
-    (table.insert)(SolarPanel.__parents, "RSBDisasterWorkshiftControl")
-    (table.insert)(SolarPanelBig.__parents, "RSBDisasterWorkshiftControl")
-    (table.insert)(SolarPanelBig.__parents, "RSBDisasterWorkshiftControl")
-    (table.insert)(StirlingGenerator.__parents, "RSBDisasterWorkshiftControl")
-    (table.insert)(SubsurfaceHeater.__parents, "RSBDisasterWorkshiftControl")
-end
-CreateRealTimeThread(injectParentsIntoCore)
+DefineClass.RSBSolarPanel = {
+    __parents = {"SolarPanel", "RSBDisasterWorkshiftControl"}
+}
 
+DefineClass.RSBSolarPanelBig = {
+    __parents = {"SolarPanelBig", "RSBDisasterWorkshiftControl"}
+}
+
+DefineClass.RSBWindTurbine = {
+    __parents = {"WindTurbine", "RSBDisasterWorkshiftControl"}
+}
+
+DefineClass.RSBStirlingGenerator = {
+    __parents = {"StirlingGenerator", "RSBDisasterWorkshiftControl"}
+}
+
+DefineClass.RSBSubsurfaceHeater = {
+    __parents = {"SubsurfaceHeater", "RSBDisasterWorkshiftControl"}
+}
+
+local oldUIWorkshiftUpdate = nil
+
+function HideVanillaTech()
+    LockBuilding("SolarPanel")
+    LockBuilding("SolarPanelBig")
+    LockBuilding("WindTurbine")
+    LockBuilding("StirlingGenerator")
+    LockBuilding("SubsurfaceHeater")
+end
+
+OnMsg.PostNewMapLoaded = function()
+    HideVanillaTech()
+    if oldUIWorkshiftUpdate == nil then
+        oldUIWorkshiftUpdate = UIWorkshiftUpdate
+    end
+
+    UIWorkshiftUpdate = function(self, building, shift)
+        AddCustomOnScreenNotification("RSB1", "Advanced research", "Granted...")
+        oldUIWorkshiftUpdate(self, building, shift)
+        AddCustomOnScreenNotification("RSB1", "Advanced research", "Granted...")
+        if building:IsKindOf("RSBDisasterWorkshiftControl") then
+            AddCustomOnScreenNotification("RSB2", "Advanced research", "KINDOF")
+            local shift_active = building:IsShiftUIActive(shift)
+            local shift_closed = building:IsClosedShift(shift)
+            if shift == 1 then
+                local title = "Normal operation"
+                if (shift_closed) then
+                    title = "<red>" .. title .. "</red>"
+                elseif (shift_active) then
+                    title = "<green>" .. title .. "</green>"
+                end
+                self:SetTitle(T({title, UICity}))
+                self:SetRolloverTitle("Normal operation")
+            elseif shift == 2 then
+                local title = "Dust storm shift"
+                if (shift_closed) then
+                    title = "<red>" .. title .. "</red>"
+                elseif (shift_active) then
+                    title = "<green>" .. title .. "</green>"
+                end
+                self:SetTitle(T({title, UICity}))
+                self:SetRolloverTitle("Dust storm shift")
+            elseif shift == 3 then
+                local title = "Cold wave shift"
+                if (shift_closed) then
+                    title = "<red>" .. title .. "</red>"
+                elseif (shift_active) then
+                    title = "<green>" .. title .. "</green>"
+                end
+                self:SetTitle(T({title, UICity}))
+                self:SetRolloverTitle("Cold wave shift")
+            end
+        end
+    end
+    AddCustomOnScreenNotification("RSB3", "Advanced research", "ERRR..." .. type(oldUIWorkshiftUpdate))
+end
 
 RSBDisasterWorkshiftControl.SetWorkshift = function(self, shift)
     if g_DustStorm then
@@ -25,44 +90,4 @@ RSBDisasterWorkshiftControl.SetWorkshift = function(self, shift)
 end
 
 
-local oldUIupdate = nil
-if oldUIupdate == nil then
-    oldUIupdate = UIWorkshiftUpdate
-end
 
-UIWorkshiftUpdate = function(self, building, shift)
-    oldUIupdate(self, building, shift)
-
-    if building:IsKindOf("RSBDisasterWorkshiftControl") then
-        local shift_active = building:IsShiftUIActive(shift)
-        local shift_closed = building:IsClosedShift(shift)
-        if shift == 1 then
-            local title = "Normal operation"
-            if (shift_closed) then
-                title = "<red>" .. title .. "</red>"
-            elseif (shift_active) then
-                title = "<green>" .. title .. "</green>"
-            end
-            self:SetTitle(T({title, UICity}))
-            self:SetRolloverTitle("Normal operation")
-        elseif shift == 2 then
-            local title = "Dust storm shift"
-            if (shift_closed) then
-                title = "<red>" .. title .. "</red>"
-            elseif (shift_active) then
-                title = "<green>" .. title .. "</green>"
-            end
-            self:SetTitle(T({title, UICity}))
-            self:SetRolloverTitle("Dust storm shift")
-        elseif shift == 3 then
-            local title = "Cold wave shift"
-            if (shift_closed) then
-                title = "<red>" .. title .. "</red>"
-            elseif (shift_active) then
-                title = "<green>" .. title .. "</green>"
-            end
-            self:SetTitle(T({title, UICity}))
-            self:SetRolloverTitle("Cold wave shift")
-        end
-    end
-end
