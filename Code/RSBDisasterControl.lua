@@ -13,6 +13,8 @@ end
 
 table.insert(SolarPanel.__parents, "RSBDisasterControl")
 table.insert(WindTurbine.__parents, "RSBDisasterControl")
+table.insert(StirlingGenerator.__parents, "RSBDisasterControl")
+table.insert(SubsurfaceHeater.__parents, "RSBDisasterControl")
 
 local oldUIWorkshiftUpdate = nil
 OnMsg.PostNewMapLoaded = function()

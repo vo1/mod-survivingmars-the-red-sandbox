@@ -1,47 +1,7 @@
 return {
-PlaceObj('ModItemBuildingTemplate', {
-	'name', "RSBMarketplace",
-	'template_class', "RSBMarketplace",
-	'pin_rollover_hint', T{704664020752, --[[ModItemBuildingTemplate RSBMarketplace pin_rollover_hint]] "<image UI/Infopanel/left_click.tga 1400> Select"},
-	'pin_rollover_hint_xbox', T{657483066483, --[[ModItemBuildingTemplate RSBMarketplace pin_rollover_hint_xbox]] "<image UI/PS4/Cross.tga> View"},
-	'pin_on_start', true,
-	'build_points', 120000,
-	'instant_build', true,
-	'dome_forbidden', true,
-	'wonder', true,
-	'achievement', "BuiltSpaceElevator",
-	'maintenance_resource_type', "MachineParts",
-	'maintenance_resource_amount', 3000,
-	'display_name', T{585824944696, --[[ModItemBuildingTemplate RSBMarketplace display_name]] "Space Elevator"},
-	'display_name_pl', T{991186258428, --[[ModItemBuildingTemplate RSBMarketplace display_name_pl]] "Space Elevators"},
-	'description', T{344782237295, --[[ModItemBuildingTemplate RSBMarketplace description]] "A faster way to reach space, the Elevator speeds up cargo shipments to orbit. Exports Rare Metals to Earth and offers resupply materials and prefabs at a discount."},
-	'build_category', "Wonders",
-	'display_icon', "UI/Icons/Buildings/space_elevator.tga",
-	'entity', "SpaceElevator",
-	'ip_template', "ipDrone",
-	'encyclopedia_image', "UI/Encyclopedia/SpaceElevator.tga",
-	'label1', "OutsideBuildings",
-	'palettes', "SpaceElevator",
-	'demolish_sinking', range(15, 30),
-	'demolish_tilt_angle', range(300, 600),
-	'max_storage_per_resource', 100000000,
-	'storable_resources', {
-		"Concrete",
-		"Metals",
-		"Polymers",
-		"Food",
-		"Electronics",
-		"MachineParts",
-	},
-	'electricity_consumption', 1,
-}),
 PlaceObj('ModItemCode', {
 	'name', "RSBDisasterControl",
 	'FileName', "Code/RSBDisasterControl.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "RSBMarketplace",
-	'FileName', "Code/RSBMarketplace.lua",
 }),
 PlaceObj('ModItemCode', {
 	'name', "RSBResearch",
@@ -50,10 +10,6 @@ PlaceObj('ModItemCode', {
 PlaceObj('ModItemCode', {
 	'name', "RSBResearchMap",
 	'FileName', "Code/RSBResearchMap.lua",
-}),
-PlaceObj('ModItemCode', {
-	'name', "customRSBMarketplace",
-	'FileName', "Code/customRSBMarketplace.lua",
 }),
 PlaceObj('ModItemTech', {
 	'name', "RSBBreakthroughBiotech",
