@@ -25,6 +25,7 @@ RSBTechMap = {
 		"VectorPump"
 	},
 	["RSBBreakthroughRobotics"] = {
+		"AdvancedDroneDrive",
 		"ArtificialMuscles",
 		"AutonomousHubs",
 		"ExtractorAI",
@@ -35,6 +36,7 @@ RSBTechMap = {
 		"WirelessPower"
 	},
 	["RSBBreakthroughPhysics"] = {
+		"OverchargeAmplification",
 		"AlienImprints",
 		"CoreMetals",
 		"CoreRareMetals",

@@ -15,18 +15,30 @@ end
 
 -- Rolls tech from RSBTechMap
 function RollTech(tech_id)
-	local br = RSBTechMap[tech_id]
-	local techId = br[AsyncRand(#br - 1) + 1]
-	return techId
+	return (table.rand)(RSBTechMap[tech_id])
 end
 
 -- Social increases funding by tech.param5
 function RSBGrantSocial(tech)
 	RSBIncreaseFunding(tech)
 end
--- Physics so far grants funding
+
+-- Increases research per electricity unit gain by tech.param1 up to tech.param2
 function RSBGrantPhysics(tech)
-	RSBIncreaseFunding(tech)
+	if not IsTechDiscovered("SuperconductingComputing") then
+		DiscoverTech("SuperconductingComputing")
+	end
+	if not IsTechResearched("SuperconductingComputing") then 
+		GrantTech("SuperconductingComputing")
+		g_Consts.ElectricityForResearchPoint = 10000
+	end
+	g_Consts.ElectricityForResearchPoint = tech.param2
+	if (g_Consts.ElectricityForResearchPoint > tech.param2) then
+		g_Consts.ElectricityForResearchPoint = g_Consts.ElectricityForResearchPoint - tech.param1
+		AddCustomOnScreenNotification("RSB","Advanced research", "We get more research points per electricity unit.")
+	else
+		RSBIncreaseFunding(tech)
+	end
 end
 
 -- Robotics increases auto_pefrormance by tech.param1 up to tech.param2
@@ -45,30 +57,17 @@ end
 
 -- Decreases food consumption by tech.param1 down to tech.param2, grants funding on limit
 function RSBGrantBiotech(tech)
-	if g_Consts.eat_food_per_visit < tech.param2 then
-		g_Consts.eat_food_per_visit = g_Consts.eat_food_per_visit - tech.param1
-		AddCustomOnScreenNotification("RSB", "Advanced research", "Our colonists consume " .. tech.param1 / 2 .. "% less food from now.")
+	if (g_Consts.eat_food_per_visit / 2) < tech.param2 then
+		g_Consts.eat_food_per_visit = g_Consts.eat_food_per_visit - tech.param1 * 2
+		AddCustomOnScreenNotification("RSB", "Advanced research", "Our colonists consume " .. tech.param1 .. "% less food from now.")
 	else
 		RSBIncreaseFunding(tech)
 	end
 end
 
--- Increases research per electricity unit gain by tech.param1 up to tech.param2
+-- Engineering so far grants funding
 function RSBGrantEngineering(tech)
-	if not IsTechDiscovered("SuperconductingComputing") then
-		DiscoverTech("SuperconductingComputing")
-	end
-	if not IsTechResearched("SuperconductingComputing") then 
-		GrantTech("SuperconductingComputing")
-		g_Consts.ElectricityForResearchPoint = 10000
-	end
-	g_Consts.ElectricityForResearchPoint = tech.param2
-	if (g_Consts.ElectricityForResearchPoint > tech.param2) then
-		g_Consts.ElectricityForResearchPoint = g_Consts.ElectricityForResearchPoint - tech.param1
-		AddCustomOnScreenNotification("RSB","Advanced research", "We get more research points per electricity unit.")
-	else
-		RSBIncreaseFunding(tech)
-	end
+	RSBIncreaseFunding(tech)
 end
 
 -- Increases funding from tech.param5
