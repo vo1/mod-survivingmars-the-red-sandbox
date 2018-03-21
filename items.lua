@@ -55,7 +55,7 @@ PlaceObj('ModItemTech', {
 	'display_name', T{361773802745, "Biotech deep research"},
 	'icon', "UI/Icons/Research/biome_engineering.tga",
 	'description', T{361773802799, "Advanced research in biotech. Tries to find a new breakthrough in biotech.<newline>Makes all colonists <param1comment> <param1>% less food when failed.<newline>After reaching minimal consumption rate grants <param2>% bonus to all funding gains."},
-	'position', range(1, 1),
+	'position', range(5, 5),
 	'repeatable', true,
 	'param1comment', "Consumption food decrease per fail <param1>%",
 	'param1', 2,
