@@ -5,13 +5,11 @@ return PlaceObj('ModDef', {
 	'id', "RSB",
 	'steam_id', "1334868594",
 	'author', "Vo1",
-	'version', 337,
+	'version', 353,
 	'lua_revision', 228003,
 	'code', {
-		"Code/Breakthrough.lua",
-		"Code/Logging.lua",
-		"Code/RSBDisasterControl.lua",
-		"Code/TechMap.lua",
+		"Code/RSBResearch.lua",
+		"Code/RSBResearchMap.lua",
 	},
-	'saved', 1521599250,
+	'saved', 1521642588,
 })

@@ -1,4 +1,4 @@
-RSBTechMap = {
+RSBResearchMap = {
     ["RSBBreakthroughBiotech"] = {
         "Cloning",
         "CryoSleep",

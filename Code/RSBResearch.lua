@@ -1,5 +1,5 @@
 function OnMsg.TechResearched(tech_id, city, first_time)
-    if RSBTechMap[tech_id] ~= nil then 
+    if RSBResearchMap[tech_id] ~= nil then 
         local RSBTech = TechDef[tech_id]
         local tech = RollTech(tech_id)
         local functionName = (string.gsub)(tech_id, "RSBBreakthrough", "RSBGrant")
@@ -13,9 +13,9 @@ function OnMsg.TechResearched(tech_id, city, first_time)
     end
 end
 
--- Rolls tech from RSBTechMap
+-- Rolls tech from RSBResearchMap
 function RollTech(tech_id)
-    return (table.rand)(RSBTechMap[tech_id])
+    return (table.rand)(RSBResearchMap[tech_id])
 end
 
 -- Social increases funding by tech.param5
@@ -77,7 +77,6 @@ function RSBIncreaseFunding(tech)
 end
 
 function OnMsg.NewHour()
-    GrantTech("Vocation-Oriented Society")
     for _, workplace in ipairs(UICity.labels.Workplace) do
         if workplace.auto_performance ~= nil then
             if workplace.default_auto_performance == nil then
