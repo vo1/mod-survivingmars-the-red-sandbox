@@ -77,7 +77,7 @@ function RSBIncreaseFunding(tech)
 end
 
 function OnMsg.NewHour()
-    for _, workplace in ipairs(UICity.labels.Workplace) do
+    for _, workplace in ipairs(UICity.labels.Workplace) or empty_table do
         if workplace.auto_performance ~= nil then
             if workplace.default_auto_performance == nil then
                 workplace.default_auto_performance = workplace.auto_performance
