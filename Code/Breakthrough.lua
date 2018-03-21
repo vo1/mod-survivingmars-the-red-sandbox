@@ -77,6 +77,7 @@ function RSBIncreaseFunding(tech)
 end
 
 function OnMsg.NewHour()
+    GrantTech("Vocation-Oriented Society")
     for _, workplace in ipairs(UICity.labels.Workplace) do
         if workplace.auto_performance ~= nil then
             if workplace.default_auto_performance == nil then

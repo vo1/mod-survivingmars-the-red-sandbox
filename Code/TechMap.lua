@@ -61,6 +61,6 @@ RSBTechMap = {
         "SafeMode",
         "SpaceRehabilitation",
         "SustainedWorkload",
-        "VocationOrientedSociety"
+        "Vocation-Oriented Society"
     }
 }

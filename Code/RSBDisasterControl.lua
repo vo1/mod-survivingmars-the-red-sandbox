@@ -39,11 +39,8 @@ OnMsg.PostNewMapLoaded = function()
     end
 
     UIWorkshiftUpdate = function(self, building, shift)
-        AddCustomOnScreenNotification("RSB1", "Advanced research", "Granted...")
         oldUIWorkshiftUpdate(self, building, shift)
-        AddCustomOnScreenNotification("RSB1", "Advanced research", "Granted...")
         if building:IsKindOf("RSBDisasterWorkshiftControl") then
-            AddCustomOnScreenNotification("RSB2", "Advanced research", "KINDOF")
             local shift_active = building:IsShiftUIActive(shift)
             local shift_closed = building:IsClosedShift(shift)
             if shift == 1 then
@@ -76,7 +73,6 @@ OnMsg.PostNewMapLoaded = function()
             end
         end
     end
-    AddCustomOnScreenNotification("RSB3", "Advanced research", "ERRR..." .. type(oldUIWorkshiftUpdate))
 end
 
 RSBDisasterWorkshiftControl.SetWorkshift = function(self, shift)
