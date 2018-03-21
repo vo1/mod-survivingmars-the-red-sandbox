@@ -24,16 +24,17 @@ DefineClass.RSBSubsurfaceHeater = {
 
 local oldUIWorkshiftUpdate = nil
 
-function HideVanillaTech()
-    LockBuilding("SolarPanel")
-    LockBuilding("SolarPanelBig")
-    LockBuilding("WindTurbine")
-    LockBuilding("StirlingGenerator")
-    LockBuilding("SubsurfaceHeater")
+function HideBuildings()
+    -- hidden for now until found a better way
+    LockBuilding("RSBSolarPanel")
+    LockBuilding("RSBSolarPanelBig")
+    LockBuilding("RSBWindTurbine")
+    LockBuilding("RSBStirlingGenerator")
+    LockBuilding("RSBSubsurfaceHeater")
 end
 
 OnMsg.PostNewMapLoaded = function()
-    HideVanillaTech()
+    HideBuildings()
     if oldUIWorkshiftUpdate == nil then
         oldUIWorkshiftUpdate = UIWorkshiftUpdate
     end
