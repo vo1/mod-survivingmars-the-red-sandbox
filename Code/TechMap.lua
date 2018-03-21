@@ -1,5 +1,5 @@
 RSBTechMap = {
-	["RSBBreakthroughBiotech"] = {
+    ["RSBBreakthroughBiotech"] = {
 		"Cloning",
 		"CryoSleep",
 		"DryFarming",

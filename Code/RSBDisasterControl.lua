@@ -5,7 +5,7 @@ DefineClass.RSBDisasterWorkshiftControl = {
 local injectParentsIntoCore = function()
 	Sleep(5000)
 	(table.insert)(WindTurbine.__parents, "RSBDisasterWorkshiftControl")
-	(table.insert)(SolarPanel.__parents, "RSBDisasterWorkshiftControl")
+    (table.insert)(SolarPanel.__parents, "RSBDisasterWorkshiftControl")
 	(table.insert)(SolarPanelBig.__parents, "RSBDisasterWorkshiftControl")
 	(table.insert)(SolarPanelBig.__parents, "RSBDisasterWorkshiftControl")
 	(table.insert)(StirlingGenerator.__parents, "RSBDisasterWorkshiftControl")
