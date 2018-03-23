@@ -4,10 +4,9 @@ function OnMsg.TechResearched(tech_id, city, first_time)
         local tech = RollTech(tech_id)
         local functionName = (string.gsub)(tech_id, "RSBBreakthrough", "RSBGrant")
         if IsTechDiscovered(tech) then
-            _, err = pcall(_G[functionName], city, RSBTech)
---          AddCustomOnScreenNotification("LOG", "ERROR", "ERR: " .. err)
+            pcall(_G[functionName], RSBTech)
         else
-            AddCustomOnScreenNotification("Discovery","Breakthrough", "Discovered " .. tech)
+            AddCustomOnScreenNotification("Discovery", "Breakthrough", "Discovered " .. tech)
             DiscoverTech(tech)
         end
     end
@@ -30,9 +29,8 @@ function RSBGrantPhysics(tech)
     end
     if not IsTechResearched("SuperconductingComputing") then 
         GrantTech("SuperconductingComputing")
-        g_Consts.ElectricityForResearchPoint = 10000
+        g_Consts.ElectricityForResearchPoint = tech.param3
     end
-    g_Consts.ElectricityForResearchPoint = tech.param2
     if (g_Consts.ElectricityForResearchPoint > tech.param2) then
         g_Consts.ElectricityForResearchPoint = g_Consts.ElectricityForResearchPoint - tech.param1
         AddCustomOnScreenNotification("RSB","Advanced research", "We get more research points per electricity unit.")
