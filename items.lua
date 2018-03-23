@@ -53,6 +53,8 @@ PlaceObj('ModItemTech', {
 	'param1', 500,
 	'param2comment', "Electricity minimum",
 	'param2', 5000,
+	'param3comment', "Initial electricity conversion rate",
+	'param3', 20000,
 	'param5comment', "Funding gain per fail",
 	'param5', 2,
 	'field', "Physics",
