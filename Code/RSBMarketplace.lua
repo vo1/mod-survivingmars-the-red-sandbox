@@ -1,4 +1,4 @@
- DefineClass.RSBMarketplace = {
+DefineClass.RSBMarketplace = {
     __parents = {"SpaceElevator"}
 }
 
@@ -14,24 +14,14 @@ function RSBMarketplace.GetData()
     return {}
 end
 
-function RSBMarketplace.UIRemoveItem(self)
-    local counter = self.parent:ResolveId("idAmount");
-    counter.value = counter.value - 1
-    if counter.value < 0 then 
-        counter.value = 0
-    end
-    counter:SetText(Untranslated(counter.value))
-end
-
-function RSBMarketplace.UIAddItem(self)
-    local counter = self.parent:ResolveId("idAmount");
-    counter.value = counter.value + 1
-    if counter.value > counter.max then 
+function RSBMarketplace.UIModifyItem(counter, cnt)
+    counter.value = counter.value + cnt
+    if counter.max ~= nil and counter.value > counter.max then 
         counter.value = counter.max
+    elseif counter.min ~= nil and counter.value < counter.min then
+        counter.value = counter.min
     end
-    counter:SetText(Untranslated(counter.value))
-    self.parent.parent:ResolveId("idTitle"):SetText(Untranslated(counter.value))
-    AddCustomOnScreenNotification("RR","RR", "R" .. counter.value)
+    counter:SetText(Untranslated(tostring(counter.value)))
 end
 
 function RSBMarketplace.UIRenderListItem(child, context, item, i, n)
@@ -39,11 +29,18 @@ function RSBMarketplace.UIRenderListItem(child, context, item, i, n)
     counter.resourceIdentifier = item.id
     counter.value = 0
     counter.max = 9
+    counter.min = -3
     child:ResolveId("idTitle"):SetText(Untranslated(item.title))
     child:ResolveId("idPrice"):SetText(Untranslated(item.price))
     child:ResolveId("idPrice"):SetTextColor(RGBA(200, 0, 0, 255))
     if item.price_type == "deficite" then
         child:ResolveId("idPrice"):SetTextColor(RGBA(0, 255, 0, 255))
+    end
+    child:ResolveId("idAdd").OnPress = function(self, gamepad)
+        RSBMarketplace.UIModifyItem(counter, 1)
+    end
+    child:ResolveId("idRemove").OnPress = function(self, gamepad)
+        RSBMarketplace.UIModifyItem(counter, -1)
     end
 end
 
@@ -72,12 +69,12 @@ function OnMsg.ClassesBuilt()
                                 "array", function(parent, context) 
                                     return context:GetData()
                                 end,
-                                "run_after", RSBMarketplace.UIRenderListItem,
+                                "run_after", RSBMarketplace.UIRenderListItem
                             },
                             {
                                 PlaceObj(
                                     "XTemplateWindow",
-                                    {"LayoutMethod", "HList",  "Id", "idContainer"},
+                                    {"LayoutMethod", "HList", "Id", "idCnt"},
                                     {
                                         PlaceObj("XTemplateTemplate", {"__template", "InfopanelText", "Id", "idTitle", "TextFont", "PGResource"}),
                                         PlaceObj(
@@ -86,8 +83,8 @@ function OnMsg.ClassesBuilt()
                                             {
                                                 PlaceObj("XTemplateTemplate", {"__template", "InfopanelText", "Id", "idPrice", "TextFont", "PGResource"}),
                                                 PlaceObj("XTemplateWindow", {"__class", "XTextButton", "Id", "idRemove", "HAlign", "left", "VAlign", "center", "MouseCursor", "UI/Cursors/Rollover.tga", "FXMouseIn", "RocketRemoveCargoHover", "FXPress", "RocketRemoveCargoClick", "RepeatStart", 300, "RepeatInterval", 300, "OnPress", RSBMarketplace.UIRemoveItem, "Image", "UI/Infopanel/arrow_remove.tga", "ColumnsUse", "abcc"}),
-                                                PlaceObj("XTemplateWindow", {"__class", "XText", "Id", "idAmount", "Padding", box(2, 2, 5, 2), "HAlign", "right", "VAlign", "center", "MinWidth", 30, "MaxWidth", 50, "TextFont", "PGResource", "TextColor", RGBA(255, 248, 233, 255), "RolloverTextColor", RGBA(255, 255, 255, 255), "WordWrap", false, "TextHAlign", "right", "TextVAlign", "center"}),
-                                                PlaceObj("XTemplateWindow", {"__class", "XTextButton", "Id", "idAdd", "HAlign", "right", "VAlign", "center", "MouseCursor", "UI/Cursors/Rollover.tga", "FXMouseIn", "RocketRemoveCargoHover", "FXPress", "RocketRemoveCargoClick", "RepeatStart", 300, "RepeatInterval", 300, "OnPress", RSBMarketplace.UIAddItem, "Image", "UI/Infopanel/arrow_add.tga", "ColumnsUse", "abcc"})
+                                                PlaceObj("XTemplateWindow", {"__class", "XText", "Id", "idAmount", "Text", Untranslated("0"), "Padding", box(2, 2, 5, 2), "HAlign", "right", "VAlign", "center", "MinWidth", 30, "MaxWidth", 50, "TextFont", "PGResource", "TextColor", RGBA(255, 248, 233, 255), "RolloverTextColor", RGBA(255, 255, 255, 255), "WordWrap", false, "TextHAlign", "right", "TextVAlign", "center"}),
+                                                PlaceObj("XTemplateWindow", {"__class", "XTextButton", "Id", "idAdd", "HAlign", "right", "VAlign", "center", "MouseCursor", "UI/Cursors/Rollover.tga", "FXMouseIn", "RocketRemoveCargoHover", "FXPress", "RocketRemoveCargoClick", "RepeatStart", 300, "RepeatInterval", 300, "Image", "UI/Infopanel/arrow_add.tga", "ColumnsUse", "abcc"})
                                             }
                                         )
                                     }
