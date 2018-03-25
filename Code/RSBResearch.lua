@@ -1,3 +1,5 @@
+const.mediumGameSpeed = 5
+const.fastGameSpeed = 10
 function OnMsg.TechResearched(tech_id, city, first_time)
     if RSBResearchMap[tech_id] ~= nil then 
         local RSBTech = TechDef[tech_id]

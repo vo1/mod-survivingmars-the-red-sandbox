@@ -1,9 +1,5 @@
 return {
 PlaceObj('ModItemCode', {
-	'name', "RSBDisasterControl",
-	'FileName', "Code/RSBDisasterControl.lua",
-}),
-PlaceObj('ModItemCode', {
 	'name', "RSBResearch",
 	'FileName', "Code/RSBResearch.lua",
 }),
