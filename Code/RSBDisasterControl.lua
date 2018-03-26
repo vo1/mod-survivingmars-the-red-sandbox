@@ -1,6 +1,7 @@
 DefineClass.RSBDisasterControl = {
     __parents =  {"ShiftsBuilding"}
 }
+
 RSBDisasterControl.SetWorkshift = function(self, shift)
     if g_DustStorm then
         (ShiftsBuilding.SetWorkshift)(self, 2)
@@ -11,10 +12,12 @@ RSBDisasterControl.SetWorkshift = function(self, shift)
     end
 end
 
-table.insert(SolarPanel.__parents, "RSBDisasterControl")
-table.insert(WindTurbine.__parents, "RSBDisasterControl")
-table.insert(StirlingGenerator.__parents, "RSBDisasterControl")
-table.insert(SubsurfaceHeater.__parents, "RSBDisasterControl")
+function OnMsg.ClassesGenerate()
+    table.insert(SolarPanel.__parents, "RSBDisasterControl")
+    table.insert(WindTurbine.__parents, "RSBDisasterControl")
+    table.insert(StirlingGenerator.__parents, "RSBDisasterControl")
+    table.insert(SubsurfaceHeater.__parents, "RSBDisasterControl")
+end
 
 local oldUIWorkshiftUpdate = nil
 OnMsg.PostNewMapLoaded = function()
